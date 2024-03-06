@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/5ecd877bfbe54781a336dff68dc57f15/artifacts
+end_time: 1709722991352
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5ecd877bfbe54781a336dff68dc57f15
+run_name: bright-bat-170
+run_uuid: 5ecd877bfbe54781a336dff68dc57f15
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709722991081
+status: 3
+tags: []
+user_id: Niftycoders
