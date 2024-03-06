@@ -14,8 +14,7 @@ from sklearn.model_selection import train_test_split
 import time
 import json
 import re
-import mlflow
-import mlflow.pytorch
+
 
 def preprocess_text(text):
     """
@@ -175,8 +174,6 @@ def fit(num_epochs, model, loss_fn, opt, train_dl, valid_dl):
         valid_acc = eval_fn(valid_dl, model,device)
         print('Epoch [{}/{}], Train Loss: {:.4f} and Validation f1 {:.4f}'.format(epoch+1, num_epochs, loss.item(),valid_acc))
         
-        mlflow.log_metric("train_loss", loss / len(train_dl))
-        mlflow.log_metric("validation_f1", valid_acc, step=epoch)
 
 def predict(text, model_path, label_mapping_path, max_len=16):
     # Load label mapping
@@ -225,17 +222,12 @@ def predict(text, model_path, label_mapping_path, max_len=16):
 
 
 if __name__ == '__main__':
-    # Initialize MLflow run
-    mlflow.start_run()
+
     # Defining some key variables that will be used later on in the training
     MAX_LEN = 46
     BATCH_SIZE = 16
     EPOCHS = 1
     LEARNING_RATE = 1e-05
-    
-    mlflow.log_param("epochs", EPOCHS)
-    mlflow.log_param("batch_size", BATCH_SIZE)
-    mlflow.log_param("learning_rate", LEARNING_RATE)
 
     BERT_PATH = './distilbert_model/'
     MODEL_PATH = "pytorch_model.bin"
@@ -311,10 +303,9 @@ if __name__ == '__main__':
     
     end_time = time.time() - start
     print("time: ",end_time)
-    mlflow.log_metric("training_time", end_time)
     
     ## Save model
-    mlflow.pytorch.log_model(model, "model")
+    
     torch.save(model.state_dict(), './output/distilbert_model.pth')
     
     ### Inference ###
