@@ -1,7 +1,8 @@
 import os
 import json
 import yaml
-
+from minio import Minio
+from minio.error import S3Error
 # Function to load configuration
 def load_config(config_path):
     with open(config_path, 'r') as file:
@@ -48,3 +49,30 @@ def load_json(label_mapping_path):
     with open(label_mapping_path, 'r') as f:
         json_file = json.load(f)
     return json_file
+
+
+
+def download_from_minio(client, bucket_name, object_name, file_path):
+    """
+    Download a file from MinIO if it doesn't exist locally.
+    """
+    if not os.path.exists(file_path):
+        print(f"Downloading {object_name} from MinIO to {file_path}")
+        try:
+            client.fget_object(bucket_name, object_name, file_path)
+        except S3Error as e:
+            print(f"Failed to download {object_name} from MinIO: {e}")
+            raise
+    else:
+        print(f"File {file_path} already exists locally.")
+
+def upload_to_minio(client, bucket_name, object_name, file_path):
+    """
+    Upload a file to MinIO.
+    """
+    try:
+        print(f"Uploading {file_path} to MinIO as {object_name}")
+        client.fput_object(bucket_name, object_name, file_path)
+    except S3Error as e:
+        print(f"Failed to upload {object_name} to MinIO: {e}")
+        raise

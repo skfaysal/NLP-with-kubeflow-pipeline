@@ -10,3 +10,4 @@ train_size: 0.80
 minio_host : "localhost:9000/"
 access_key : "ROOTNAME"
 secret_key : "minio123"
+bucket_name : "nlp-with-kubeflow-pipeline"

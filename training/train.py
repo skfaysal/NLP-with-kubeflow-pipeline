@@ -56,8 +56,21 @@ class TextProcessor:
         self.df_train = self.df_train[~self.df_train['target'].isin(classes_to_remove)]
 
     def load_and_prepare_data(self):
-        data_path = os.path.join(self.root_dir, self.config['train_data_path'])
-        self.df_train = pd.read_csv(data_path)
+            # Extracting directory path from train_data_path
+        local_dir_path = os.path.join(self.root_dir, os.path.dirname(self.config['train_data_path']))
+        csv_file_name = os.path.basename(self.config['train_data_path'])
+        local_csv_path = os.path.join(local_dir_path, csv_file_name)
+
+        # Creating the directory if it does not exist
+        if not os.path.exists(local_dir_path):
+            os.makedirs(local_dir_path)
+
+        # Download the CSV file from MinIO
+        utils.download_from_minio(client, 'your-bucket-name', self.config['train_data_path'], local_csv_path)
+
+        # Load the CSV file
+        self.df_train = pd.read_csv(local_csv_path)
+
         self.df_train.columns = ['label', 'query']
         self.create_label_mapping()
         self.filter_classes_with_single_occurrence()
