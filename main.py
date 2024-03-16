@@ -232,7 +232,7 @@ if __name__ == '__main__':
     BERT_PATH = './distilbert_model/'
     MODEL_PATH = "pytorch_model.bin"
     tokenizer = DistilBertTokenizer.from_pretrained(
-        BERT_PATH,
+        BERT_PATH,## Distilbert tockenizer path
         do_lower_case=True
     )
     device = 'cuda' if cuda.is_available() else 'cpu'
@@ -244,7 +244,7 @@ if __name__ == '__main__':
     
     ## Label Mapping
     df_train, label_mapping = create_label_mapping(df_train)
-    with open('./output/label_mapping.json', 'w') as f:
+    with open('./artifacts/label_mapping.json', 'w') as f:
         json.dump(label_mapping, f)
     # print(label_mapping)
     
@@ -306,11 +306,11 @@ if __name__ == '__main__':
     
     ## Save model
     
-    torch.save(model.state_dict(), './output/distilbert_model.pth')
+    torch.save(model.state_dict(), './artifacts/distilbert_model.pth')
     
     ### Inference ###
-    model_path = './output/distilbert_model.pth'
-    label_mapping_path = './output/label_mapping.json'
+    model_path = './artifacts/distilbert_model.pth'
+    label_mapping_path = './artifacts/label_mapping.json'
     text = "which flights go from milwaukee to tampa and stop in nashville"
     prediction = predict(text, model_path, label_mapping_path)
     print("Predicted label:", prediction)

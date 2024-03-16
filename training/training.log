@@ -1,0 +1,9 @@
+2024-03-16 07:10:01,191 - INFO - 
+TRAIN Dataset: (3978, 3)
+2024-03-16 07:10:01,191 - INFO - Labels in TRAIN Dataset: 18
+2024-03-16 07:10:01,191 - INFO - 
+VALID Dataset: (995, 3)
+2024-03-16 07:10:01,192 - INFO - Labels in VALID Dataset: 17
+2024-03-16 07:10:01,192 - INFO - Training Set Size: 3978
+2024-03-16 07:10:01,192 - INFO - Validation Set Size: 995
+2024-03-16 07:12:21,924 - INFO - Model saved to /home/faysal/projects/NLP-with-kubeflow-pipeline/artifacts/distilbertTrained_model.pth
