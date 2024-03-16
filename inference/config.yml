@@ -1,7 +1,4 @@
 max_len: 46
-bert_path: "distilbert_model"
-# model_path: "pytorch_model.bin"
-# train_data_path: "data/atis_intents.csv"
-# output_dir: "artifacts"
+model_repo: "distilbert-base-uncased"
 trained_model_name: "distilbert_model.pth"
 label_mapping_path: "label_mapping.json"

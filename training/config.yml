@@ -2,9 +2,11 @@ max_len: 46
 batch_size: 16
 epochs: 1
 learning_rate: 0.00001
-bert_path: "distilbert_model"
-model_path: "pytorch_model.bin"
+model_repo: "distilbert-base-uncased"
 train_data_path: "data/atis_intents.csv"
 output_dir: "artifacts"
 saved_model_name: "distilbertTrained_model.pth"
 train_size: 0.80
+minio_host : "localhost:9000/"
+access_key : "ROOTNAME"
+secret_key : "minio123"

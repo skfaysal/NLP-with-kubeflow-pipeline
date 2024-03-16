@@ -4,3 +4,4 @@ transformers
 tqdm
 numpy
 scikit-learn
+minio

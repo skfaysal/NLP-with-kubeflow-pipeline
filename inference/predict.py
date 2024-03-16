@@ -15,7 +15,7 @@ from shared_components import utils,models
 class Predictor:
     def __init__(self, config):
         self.max_len = config['max_len']
-        self.bert_path = os.path.join(ROOT_DIR,config['bert_path'])
+        self.bert_path = config['model_repo']
         self.model_path = os.path.join(ROOT_DIR,'artifacts',config['trained_model_name'])
         self.label_mapping_path = os.path.join(ROOT_DIR,'artifacts',config['label_mapping_path'])
         

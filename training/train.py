@@ -18,6 +18,10 @@ import os
 import yaml
 import logging
 import sys
+from minio import Minio
+from minio.error import S3Error
+
+
 
 ROOT_DIR = os.path.abspath(os.path.dirname( __file__ ))
 ROOT_DIR = os.path.dirname(ROOT_DIR)
@@ -35,7 +39,7 @@ class TextProcessor:
         self.root_dir = root_dir
         self.device = device
         self.tokenizer = DistilBertTokenizer.from_pretrained(
-            os.path.join(root_dir, self.config['bert_path']),
+            config["model_repo"],
             do_lower_case=True
         )
         self.df_train = None
@@ -169,6 +173,15 @@ class ModelTrainer:
 
 
 if __name__ == '__main__':
+    
+    config = utils.load_config(os.path.join(ROOT_DIR,'training','config.yml'))
+    
+    client = Minio(
+        config['minio_host'],
+        access_key=config['access_key'],
+        secret_key=config['secret_key'],
+        secure=False
+    )
 
     device = 'cuda' if cuda.is_available() else 'cpu'
     # Configure logging
@@ -176,10 +189,6 @@ if __name__ == '__main__':
                         format='%(asctime)s - %(levelname)s - %(message)s',
                         filename=os.path.join(ROOT_DIR,'training','training.log'),  # Log filename
                         filemode='w')  # 'w' for overwrite, 'a' for append
-    
-
-    
-    config = utils.load_config(os.path.join(ROOT_DIR,'training','config.yml'))
 
     text_processor = TextProcessor(config, ROOT_DIR, device)
     train_dataset, valid_dataset = text_processor.load_and_prepare_data()
@@ -217,7 +226,7 @@ if __name__ == '__main__':
     valid_dl = DataLoader(validation_set, **valid_params)
     
     ## Training and save the trained model
-    model = models.DistillBERTClass(os.path.join(ROOT_DIR,config['bert_path']))
+    model = models.DistillBERTClass(config["model_repo"])
     trainer = ModelTrainer(
                         model, 
                         train_dl, 
